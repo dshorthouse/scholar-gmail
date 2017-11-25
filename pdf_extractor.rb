@@ -12,7 +12,7 @@ COLLECTION_CODE = %r{
 }x
 
 Dir.foreach(RESULTS_PATH) do |item|
-  next if item == '.' or item == '..' or File.extname(item) != ".pdf"
+  next if File.extname(item) != ".pdf"
   reader = PDF::Reader.new(File.join(RESULTS_PATH,item)) rescue nil
   if reader
     codes = []

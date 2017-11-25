@@ -12,6 +12,10 @@ require 'typhoeus'
 require 'csv'
 require 'securerandom'
 
+# See https://developers.google.com/gmail/api/quickstart/ruby & do Step 1
+# Create a Google Scholar email alert using whatever search terms are relevant, send it to a gmail account
+# Create a filter in gmail to send messages to a "Scholar" label
+
 OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
 APPLICATION_NAME = 'Gmail API Ruby'
 CLIENT_SECRETS_PATH = 'client_secret.json'
@@ -95,7 +99,7 @@ def download_request(item)
     request.on_complete do |response|
       doc = Nokogiri::HTML(response.body)
       url = doc.xpath("//*/iframe[@id='pdf']").first.attributes["src"].value rescue nil
-      HYDRA.queue generate_request(item[:uuid], "http:#{url}") if url
+        HYDRA.queue generate_request(item[:uuid], "http:#{url}") if url
     end
     request
   end
