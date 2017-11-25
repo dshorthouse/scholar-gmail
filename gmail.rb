@@ -16,7 +16,7 @@ require 'securerandom'
 # See https://developers.google.com/gmail/api/quickstart/ruby & do Step 1
 # Create a Google Scholar email alert using whatever search terms are relevant, send it to a gmail account
 # Create a filter in gmail to send messages to a "Scholar" label
-# $ gem install google-api-client fileutils open-uri addressable nokogiri typhoeus securerandom
+# $ gem install google-api-client fileutils open-uri addressable nokogiri typhoeus
 # First time execution of this script will prompt to visit a URL, then copy secret code into command line
 # Subsequent executions will used cached secret from above
 
