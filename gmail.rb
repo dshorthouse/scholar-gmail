@@ -75,33 +75,27 @@ def generate_reference(doi)
   request.response_body
 end
 
+def generate_request(uuid, url)
+  downloaded_file = File.open File.join(RESULTS_PATH, "#{uuid}.pdf"), 'wb'
+  request = Typhoeus::Request.new(url)
+  request.on_body do |chunk|
+    downloaded_file.write(chunk)
+  end
+  request.on_complete do |response|
+    downloaded_file.close
+  end
+  request
+end
+
 def download_request(item)
   if File.extname(item[:url]) == ".pdf"
-    downloaded_file = File.open File.join(RESULTS_PATH, "#{item[:uuid]}.pdf"), 'wb'
-    request = Typhoeus::Request.new(item[:url])
-    request.on_body do |chunk|
-      downloaded_file.write(chunk)
-    end
-    request.on_complete do |response|
-      downloaded_file.close
-    end
-    request
+    generate_request(item[:uuid], item[:url])
   elsif item[:doi]
     request = Typhoeus::Request.new(SCI_HUB_URL + item[:url])
     request.on_complete do |response|
       doc = Nokogiri::HTML(response.body)
       url = doc.xpath("//*/iframe[@id='pdf']").first.attributes["src"].value rescue nil
-      if url
-        downloaded_file = File.open File.join(RESULTS_PATH, "#{item[:uuid]}.pdf"), 'wb'
-        second_request = Typhoeus::Request.new("http:#{url}")
-        second_request.on_body do |chunk|
-          downloaded_file.write(chunk)
-        end
-        second_request.on_complete do |response|
-          downloaded_file.close
-        end
-        HYDRA.queue second_request
-      end
+      HYDRA.queue generate_request(item[:uuid], "http:#{url}") if url
     end
     request
   end
