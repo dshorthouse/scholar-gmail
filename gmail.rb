@@ -12,9 +12,11 @@ require 'typhoeus'
 require 'csv'
 require 'securerandom'
 
+# Assumptions: linux-based OS, ruby 2+
 # See https://developers.google.com/gmail/api/quickstart/ruby & do Step 1
 # Create a Google Scholar email alert using whatever search terms are relevant, send it to a gmail account
 # Create a filter in gmail to send messages to a "Scholar" label
+# Install each of google-api-client, fileutils, open-uri, addressable, nokogiri, typhoeus, securerandom thru gem install X
 
 OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
 APPLICATION_NAME = 'Gmail API Ruby'

@@ -5,6 +5,7 @@ require 'pdf-reader'
 
 RESULTS_PATH = 'results'
 
+#regex for possible museum codes
 COLLECTION_CODE = %r{
   \bCAN[ALM]?\s[0-9]{1,}\b|
   \bCMN[ABCEFILMNPVY]{1,3}?\s[0-9]{1,}-?[0-9]{1,}?\b|
